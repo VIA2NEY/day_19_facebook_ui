@@ -11,39 +11,38 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            height: 120,
-            padding: EdgeInsets.only(top: 50, right: 20, left: 20, bottom: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.grey[200]!
-                    ),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search, color: Colors.grey,),
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(color: Colors.grey),
-                        hintText: "Search",
+      body: ListView(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                height: 120,
+                padding: EdgeInsets.only(top: 50, right: 20, left: 20, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.grey[200]!
+                        ),
+                        child: const TextField(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.search, color: Colors.grey,),
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(color: Colors.grey),
+                            hintText: "Search",
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(width: 20,),
+                    Icon(Icons.camera_alt, color: Colors.grey[800], size: 30,)
+                  ],
                 ),
-                const SizedBox(width: 20,),
-                Icon(Icons.camera_alt, color: Colors.grey[800], size: 30,)
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Padding(
+              ),
+              Padding(
                 padding: EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,6 +62,8 @@ class _HomePageState extends State<HomePage> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: storiesData.length,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
                         itemBuilder: (context, index){
                           return makeStory(
                             storyImage: storiesData[index].storyImage, 
@@ -73,28 +74,26 @@ class _HomePageState extends State<HomePage> {
                       )
                     ),
                     const SizedBox(height: 40,),
-
-                    SizedBox(
-                      height: double.maxFinite,
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: feedData.length,
-                        itemBuilder: (context, index){
-                          return makeFeed(
-                            userName: feedData[index].userName,
-                            userImage: feedData[index].userImage,
-                            feedTime: feedData[index].feedTime,
-                            feedText: feedData[index].feedText,
-                            feedImage: feedData[index].feedImage
-                          );
-                        }
-                      ),
+              
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      itemCount: feedData.length,
+                      itemBuilder: (context, index){
+                        return makeFeed(
+                          userName: feedData[index].userName,
+                          userImage: feedData[index].userImage,
+                          feedTime: feedData[index].feedTime,
+                          feedText: feedData[index].feedText,
+                          feedImage: feedData[index].feedImage
+                        );
+                      }
                     ),
                   ],
                 ),
-              ),
-            ),
-          )
+              )
+            ],
+          ),
         ],
       ),
     );
